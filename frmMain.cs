@@ -34,5 +34,10 @@ namespace PryBaseDeDatosSocios
             lblDatos.Text = objBaseDatos.datosTabla;
 
         }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            objBaseDatos.BuscarPorId(int.Parse(txtBuscarID.Text));
+        }
     }
 }

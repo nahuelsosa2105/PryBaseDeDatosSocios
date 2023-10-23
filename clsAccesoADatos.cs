@@ -60,5 +60,41 @@ namespace PryBaseDeDatosSocios
                 }
             }
         }
+
+        public void BuscarPorId(int codigo)
+        {
+            comandoBD = new OleDbCommand();
+
+            comandoBD.Connection = conexionBD;
+            comandoBD.CommandType = System.Data.CommandType.TableDirect;
+            comandoBD.CommandText = "SOCIOS";
+
+            lectorBd = comandoBD.ExecuteReader();
+
+
+            if (lectorBd.HasRows) //SI TIENE FILAS
+            {
+                bool Find = false;
+                while (lectorBd.Read()) //mientras pueda leer, mostrar (leer)
+                {
+                    if (int.Parse(lectorBd[0].ToString()) == codigo)
+                    {
+
+                        //datosTabla += "-" + lectorBD[0]; //dato d la comlumna 0
+                        MessageBox.Show("Cliente Existente" + lectorBd[0], "Consulta", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        Find = true;
+                        break;
+                    }
+
+                }
+                if (Find = false)
+                {
+
+                    MessageBox.Show("NO Existente" + lectorBd[0], "Consulta", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                  
+
+                }
+            }
+        }
     }
 }
