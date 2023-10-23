@@ -29,7 +29,7 @@ namespace PryBaseDeDatosSocios
             lblEstadoDeConexion.BackColor = Color.Green;
             lblEstadoDeConexion.ForeColor = Color.White;
 
-            objBaseDatos.traerDatos();
+            objBaseDatos.traerDatos(dgvDatos);
 
             lblDatos.Text = objBaseDatos.datosTabla;
 

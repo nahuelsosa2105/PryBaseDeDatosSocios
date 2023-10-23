@@ -36,7 +36,7 @@ namespace PryBaseDeDatosSocios
             }
            
         }
-        public void traerDatos()
+        public void traerDatos(DataGridView grilla)
         {
             comandoBD = new OleDbCommand();
 
@@ -46,11 +46,17 @@ namespace PryBaseDeDatosSocios
 
             lectorBd = comandoBD.ExecuteReader();
 
+            grilla.Columns.Add("Nombre", "Nombre");
+            grilla.Columns.Add("Apellido", "Apellido");
+            grilla.Columns.Add("Edad", "Edad");
+
+
             if (lectorBd.HasRows)
             {
                 while (lectorBd.Read())
                 {
-                    datosTabla += "-" + lectorBd[1];
+                    datosTabla += "-" + lectorBd[0];
+                    grilla.Rows.Add(lectorBd[1], lectorBd[2], lectorBd[3]);
                 }
             }
         }
