@@ -42,6 +42,8 @@ namespace PryBaseDeDatosSocios
         }
         public void traerDatos(DataGridView grilla)
         {
+            string estado = "";
+            string sexo = "";
             comandoBD = new OleDbCommand();
 
             comandoBD.Connection = conexionBD;
@@ -63,12 +65,29 @@ namespace PryBaseDeDatosSocios
             {
                 while (lectorBd.Read())
                 {
+                    if (lectorBd.GetBoolean(5) == true)
+                    {
+                        sexo = "Masculino";
+                    }
+                    else
+                    {
+                        sexo = "Femenino";
+                    }
+                    if (lectorBd.GetBoolean(8) == true)
+                    {
+                        estado = "Activo";
+                    }
+                    else
+                    {
+                        estado = "Inactivo";
+                    }
                     datosTabla += "-" + lectorBd[0];
-                    grilla.Rows.Add(lectorBd[1], lectorBd[2], lectorBd[3], lectorBd[4], lectorBd[5], lectorBd[6], lectorBd[7], lectorBd[8]);
+                    grilla.Rows.Add(lectorBd[1], lectorBd[2], lectorBd[3], lectorBd[4], sexo, lectorBd[6], lectorBd[7], estado);
                 }
                 
             }
         }
+        bool Estado;
 
         public void BuscarPorId(string codigo)
         {
@@ -85,10 +104,6 @@ namespace PryBaseDeDatosSocios
             
 
 
-            adaptadorBD.Fill(objDS, "SOCIOS");
-            
-            DataTable dt = objDS.Tables["SOCIOS"];
-
             if (lectorBd.HasRows) //SI TIENE FILAS
             {
                 bool Find = false;
@@ -104,13 +119,14 @@ namespace PryBaseDeDatosSocios
 
                         if (respuesta == DialogResult.Yes)
                         {
-
-                            foreach(DataRow dr in dt.Rows)
-                            {
-                                dr.BeginEdit();
-                                dr["ESTADO CLIENTE"] = "ACTIVO";
-                                dr.EndEdit();
-                            }
+                            Estado = true;
+                            CambiarEstado();
+                            
+                        }
+                        else
+                        {
+                            Estado=false;
+                            CambiarEstado();
                         }
                         Find = true;
                         break;
@@ -126,6 +142,31 @@ namespace PryBaseDeDatosSocios
             }
 
             
+        }
+
+        public void CambiarEstado()
+        {
+            try
+            {
+                using (OleDbConnection conexionBD = new OleDbConnection(cadenaDeConexion))
+                {
+                    conexionBD.Open();
+
+                    using(OleDbCommand comandoBD = new OleDbCommand())
+                    {
+                        comandoBD.Connection = conexionBD;
+                        comandoBD.CommandType = CommandType.Text;
+                        comandoBD.CommandText = "INSERT INTO SOCIOS (ESTADO CLIENTE) VALUES (?)";
+                        comandoBD.Parameters.AddWithValue("NOMBRE", Estado );
+
+                        comandoBD.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

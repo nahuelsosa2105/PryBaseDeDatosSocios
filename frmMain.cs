@@ -40,5 +40,10 @@ namespace PryBaseDeDatosSocios
             string cliente = txtBuscarID.Text;
             objBaseDatos.BuscarPorId(txtBuscarID.Text);
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
