@@ -35,9 +35,10 @@ namespace PryBaseDeDatosSocios
 
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+        public void btnBuscar_Click(object sender, EventArgs e)
         {
-            objBaseDatos.BuscarPorId(int.Parse(txtBuscarID.Text));
+            string cliente = txtBuscarID.Text;
+            objBaseDatos.BuscarPorId(txtBuscarID.Text);
         }
     }
 }
